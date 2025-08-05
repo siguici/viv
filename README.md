@@ -37,7 +37,7 @@ import siguici.viv
 - 🔐 Authentication & Role-Based Access Control (RBAC)
 - 🧠 Expressive ORM with relationships
 - 🧱 Schema builder for defining database structure
-- 🕸️ Web-native, built on [Veb](https://github.com/vlang/v/blob/master/veb)
+- 🕸️ Web-native, built on [Veb](https://github.com/vlang/v/tree/HEAD/vlib/veb)
 
 ---
 
