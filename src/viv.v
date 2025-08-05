@@ -35,7 +35,7 @@ pub fn new_app(config AppConfig) &App {
 }
 
 pub fn run[T, U](port int) ! {
-	mut app := T{}
+	mut app := T.new()
 
 	app.handle_static('public', true)!
 
