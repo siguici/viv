@@ -1,6 +1,6 @@
 module viv
 
-import veb
+import veb { RunParams }
 import siguici.vite { Vite }
 import siguici.envig { Envig }
 
@@ -30,7 +30,7 @@ pub fn new_app(params AppParams) &App {
 	return app
 }
 
-pub fn run[A, X](port int) ! {
+pub fn make_app[A]() A {
 	mut params := AppParams{}
 	mut app := A{
 		secret_key: params.secret_key
@@ -38,11 +38,37 @@ pub fn run[A, X](port int) ! {
 		config:     params.config
 	}
 
+	return app
+}
+
+fn handle_app[A](mut app A) ! {
+	$if A is veb.StaticHandler {
+		app.handle_static('public', true)!
+	}
+}
+
+pub fn run[A, X](port int) ! {
+	mut app := make_app[A]()
+
 	run_app[A, X](mut app, port)!
 }
 
+@[direct_array_access; manualfree]
+pub fn run_at[A, X](params RunParams) ! {
+	mut app := make_app[A]()
+
+	run_app_at[A, X](mut app, params)!
+}
+
 pub fn run_app[A, X](mut app A, port int) ! {
-	app.handle_static('public', true)!
+	handle_app[A](mut app)!
 
 	veb.run[A, X](mut app, port)
+}
+
+@[direct_array_access; manualfree]
+pub fn run_app_at[A, X](mut app A, params RunParams) ! {
+	handle_app[A](mut app)!
+
+	veb.run_at[A, X](mut app, params)
 }
