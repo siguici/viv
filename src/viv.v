@@ -30,15 +30,19 @@ pub fn new_app(params AppParams) &App {
 	return app
 }
 
-pub fn run[T, U](port int) ! {
+pub fn run[A, X](port int) ! {
 	mut params := AppParams{}
-	mut app := T{
+	mut app := A{
 		secret_key: params.secret_key
 		vite:       params.vite
 		config:     params.config
 	}
 
+	run_app[A, X](mut app, port)!
+}
+
+pub fn run_app[A, X](mut app A, port int) ! {
 	app.handle_static('public', true)!
 
-	veb.run[T, U](mut app, port)
+	veb.run[A, X](mut app, port)
 }
