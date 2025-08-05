@@ -4,41 +4,24 @@ import veb
 import siguici.vite { Vite }
 import siguici.envig { Envig }
 
-const port = 8082
-const config = Envig.new()
-
-pub struct Context {
-	veb.Context
-}
-
 pub struct App {
 	veb.StaticHandler
-	veb.Middleware[Context]
 pub:
 	secret_key string
 mut:
-	vite   Vite
-	config Envig
+	vite   Vite  = Vite.new()
+	config Envig = Envig.new()
 }
 
-pub fn App.new() &App {
+pub fn new_app() &App {
 	mut app := &App{
 		vite:   Vite.new()
-		config: config
+		config: Envig.new()
 	}
 	return app
 }
 
-pub fn (mut ctx Context) not_found() veb.Result {
-	ctx.res.set_status(.not_found)
-	return ctx.html('<h1>Page not found!</h1>')
-}
-
-pub fn (app App) before_request(mut ctx Context) {
-	println('[veb] before_request: ${ctx.req.method} ${ctx.req.url}')
-}
-
-pub fn run_app[T, U](mut app T) ! {
+pub fn run[T, U](mut app T, port int) ! {
 	app.handle_static('public', true)!
 
 	veb.run[T, U](mut app, port)
