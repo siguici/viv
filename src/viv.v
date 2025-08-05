@@ -1,3 +1,5 @@
+module viv
+
 import veb
 import siguici.vite { Vite }
 import siguici.envig { Envig }
@@ -36,7 +38,7 @@ pub fn (app App) before_request(mut ctx Context) {
 	println('[veb] before_request: ${ctx.req.method} ${ctx.req.url}')
 }
 
-fn run_web_app() ! {
+pub fn run_web_app() ! {
 	mut app := App.new()
 
 	app.handle_static('public', true)!
