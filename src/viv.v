@@ -38,10 +38,8 @@ pub fn (app App) before_request(mut ctx Context) {
 	println('[veb] before_request: ${ctx.req.method} ${ctx.req.url}')
 }
 
-pub fn run_web_app() ! {
-	mut app := App.new()
-
+pub fn run_app[T, U](mut app T) ! {
 	app.handle_static('public', true)!
 
-	veb.run[App, Context](mut app, port)
+	veb.run[T, U](mut app, port)
 }
