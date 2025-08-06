@@ -30,6 +30,7 @@ pub fn new_app(params AppParams) &App {
 	return app
 }
 
+@[inline]
 pub fn make_app[A]() A {
 	mut params := AppParams{}
 	mut app := A{
@@ -41,6 +42,7 @@ pub fn make_app[A]() A {
 	return app
 }
 
+@[inline]
 fn handle_app[A](mut app A) ! {
 	$if A is veb.StaticHandler {
 		app.handle_static('public', true)!
@@ -53,7 +55,6 @@ pub fn run[A, X](port int) ! {
 	run_app[A, X](mut app, port)!
 }
 
-@[direct_array_access; manualfree]
 pub fn run_at[A, X](params RunParams) ! {
 	mut app := make_app[A]()
 
@@ -66,7 +67,6 @@ pub fn run_app[A, X](mut app A, port int) ! {
 	veb.run[A, X](mut app, port)
 }
 
-@[direct_array_access; manualfree]
 pub fn run_app_at[A, X](mut app A, params RunParams) ! {
 	handle_app[A](mut app)!
 
