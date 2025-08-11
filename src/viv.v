@@ -2,31 +2,27 @@ module viv
 
 import os
 import veb { RunParams }
-import siguici.vite { Vite }
-import siguici.envig { Envig }
+import siguici.vite
+import siguici.envig
+
+const vite = vite.new()
+const config = envig.new()
 
 @[params]
 pub struct AppParams {
 pub mut:
 	secret_key string
-	vite       Vite  = Vite.new()
-	config     Envig = Envig.new()
 }
 
 pub struct App {
 	veb.StaticHandler
 pub:
 	secret_key string
-mut:
-	vite   Vite
-	config Envig
 }
 
 pub fn new_app(params AppParams) &App {
 	mut app := &App{
 		secret_key: params.secret_key
-		vite:       params.vite
-		config:     params.config
 	}
 	return app
 }
@@ -36,8 +32,6 @@ pub fn make_app[A]() A {
 	mut params := AppParams{}
 	mut app := A{
 		secret_key: params.secret_key
-		vite:       params.vite
-		config:     params.config
 	}
 
 	return app
