@@ -1,5 +1,6 @@
 module viv
 
+import os
 import veb { RunParams }
 import siguici.vite { Vite }
 import siguici.envig { Envig }
@@ -44,8 +45,16 @@ pub fn make_app[A]() A {
 
 @[inline]
 fn handle_app[A](mut app A) ! {
-	$if A is veb.StaticHandler {
-		app.handle_static('public', true)!
+	if os.exists('public') {
+		if os.exists('public/static') {
+			app.handle_static('public/static', true)!
+		} else {
+			app.handle_static('public', true)!
+		}
+	}
+
+	if os.exists('static') {
+		app.handle_static('static', true)!
 	}
 }
 
