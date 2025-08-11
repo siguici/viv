@@ -5,8 +5,8 @@ import veb { RunParams }
 import siguici.vite
 import siguici.envig
 
-const vite = vite.new()
-const config = envig.new()
+pub const vite = vite.new()
+pub const config = envig.new()
 
 @[params]
 pub struct AppParams {
